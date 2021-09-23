@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  #PHP Service
+  app_enterpreneur:
+    build: ./php/
+    container_name: app_enterpreneur
+    volumes:
+      - ./src:/var/www
+#      - ./php/conf.d:/usr/local/etc/php/conf.d
+    networks:
+      - enterpreneur-network
+
+  #Nginx Service
+  nginx_enterpreneur:
+    image: nginx:alpine
+    container_name: nginx_enterpreneur
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - enterpreneur-network
+
+  #Postgres Service
+  pgsql_enterpreneur:
+    container_name: pgsql_enterpreneur
+    image: postgres:13
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      PGPASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - "./postgresql:/var/lib/postgresql/data"
+    networks:
+      - enterpreneur-network
+
+#Docker Networks
+networks:
+  enterpreneur-network:
+    driver: bridge
