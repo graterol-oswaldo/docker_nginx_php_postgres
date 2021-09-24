@@ -7,7 +7,6 @@ services:
     container_name: app_enterpreneur
     volumes:
       - ./src:/var/www
-#      - ./php/conf.d:/usr/local/etc/php/conf.d
     networks:
       - enterpreneur-network
 
@@ -20,7 +19,7 @@ services:
       - "443:443"
     volumes:
       - ./src:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/:/etc/nginx/conf.d/
     networks:
       - enterpreneur-network
 
