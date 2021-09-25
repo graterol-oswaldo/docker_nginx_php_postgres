@@ -2,18 +2,18 @@ version: '3'
 
 services:
   #PHP Service
-  app_enterpreneur:
+  app_service:
     build: ./php/
-    container_name: app_enterpreneur
+    container_name: app_service
     volumes:
       - ./src:/var/www
     networks:
-      - enterpreneur-network
+      - service-network
 
   #Nginx Service
-  nginx_enterpreneur:
+  nginx_service:
     image: nginx:alpine
-    container_name: nginx_enterpreneur
+    container_name: nginx_service
     ports:
       - "80:80"
       - "443:443"
@@ -21,11 +21,11 @@ services:
       - ./src:/var/www
       - ./nginx/:/etc/nginx/conf.d/
     networks:
-      - enterpreneur-network
+      - service-network
 
   #Postgres Service
-  pgsql_enterpreneur:
-    container_name: pgsql_enterpreneur
+  pgsql_service:
+    container_name: pgsql_service
     image: postgres:13
     ports:
       - "${POSTGRES_PORT}:5432"
@@ -37,9 +37,9 @@ services:
     volumes:
       - "./postgresql:/var/lib/postgresql/data"
     networks:
-      - enterpreneur-network
+      - service-network
 
 #Docker Networks
 networks:
-  enterpreneur-network:
+  service-network:
     driver: bridge
