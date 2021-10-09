@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   #PHP Service
@@ -14,12 +14,14 @@ services:
   nginx_service:
     image: nginx:alpine
     container_name: nginx_service
+    depends_on:
+      - app_service
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
+      - "8443:443"
     volumes:
       - ./src:/var/www
-      - ./nginx/:/etc/nginx/conf.d/
+      - ./nginx:/etc/nginx/conf.d
     networks:
       - service-network
 
